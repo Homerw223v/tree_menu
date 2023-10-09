@@ -30,5 +30,6 @@ pip install -r requirements.txt
 ```bash
 python3 manage.py runserver
 ```
+И переходите по адресу http://127.0.0.1:8000/ 
 
 Проверено на Ubuntu
