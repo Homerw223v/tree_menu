@@ -9,7 +9,7 @@
         {% endif %}
         {% if base != None %}
             {% if menu_url == menu.url %}
-                {% children left %}
+                {% children left menu_url base %}
             {% endif %}
         {% endif %}
     {% endfor %}
