@@ -9,20 +9,22 @@ current_url = str()
 
 
 def check_set_url() -> None:
-    """Create new current url if needed
+    """Create new current url
     :rtype: None"""
     global current_url, base_url
-    if len(current_url.split('-')) == len(base_url.split('-')):
-        current_url = '-'.join((base_url.split('-')[:len(current_url.split('-'))]))
-    elif len(current_url.split('-')) < len(base_url.split('-')):
-        current_url = '-'.join((base_url.split('-')[:len(current_url.split('-')) + 1]))
+    url_now_len: int = len(current_url.split('-'))
+    base_url_len: int = len(base_url.split('-'))
+    if url_now_len == base_url_len:
+        current_url = '-'.join((base_url.split('-')[:url_now_len]))
+    elif url_now_len < base_url_len:
+        current_url = '-'.join((base_url.split('-')[:url_now_len + 1]))
     else:
         current_url = None
 
 
 @register.inclusion_tag('menu/menu.html')
 def children(query: list) -> dict:
-    """Create children menu if needed
+    """Create children menu if need
     :param query:
     :type query: list
     :rtype: dict
