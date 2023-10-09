@@ -1,0 +1,39 @@
+version: '3'
+volumes:
+  db:
+
+networks:
+  menu:
+
+services:
+  db:
+    container_name: database
+    image: postgres
+    restart: "always"
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - menu
+
+  django:
+    container_name: tree_menu
+    build: .
+    restart: "always"
+    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+      - 8001:8001
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+    links:
+      - db:database
+    networks:
+      - menu
