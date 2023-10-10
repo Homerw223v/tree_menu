@@ -5,4 +5,5 @@ from .models import Menu
 
 @receiver(pre_save, sender=Menu)
 def create_profile(sender, instance: Menu, **kwargs):
+    """Create url when saving Menu instance"""
     instance.create_url()

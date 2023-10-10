@@ -3,9 +3,9 @@
 {% if main_menu %}
     {% for menu in main_menu %}
         {% if menu.url == menu_url %}
-            <strong><li><a href="{{ menu.url }}">{{ menu.name }}</a> </li></strong>
+            <strong><li><a href="{% url 'menu' menu.url %}">{{ menu.name }}</a> </li></strong>
         {% else %}
-            <li><a href="{{ menu.url }}">{{ menu.name }}</a> </li>
+            <li><a href="{% url 'menu' menu.url %}">{{ menu.name }}</a> </li>
         {% endif %}
         {% if base != None %}
             {% if menu_url == menu.url %}
