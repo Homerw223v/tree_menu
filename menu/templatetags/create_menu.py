@@ -1,11 +1,11 @@
 from django import template
-
+from django.db.models import Q
 from ..models import Menu
 
 register = template.Library()
 
 
-def check_set_url(current_url: str, base_url: str) -> str | None:
+def set_current_url(current_url: str, base_url: str) -> str | None:
     """Create new current url
     :param current_url:
     :type current_url: str
@@ -23,9 +23,21 @@ def check_set_url(current_url: str, base_url: str) -> str | None:
         return None
 
 
+def get_urls(url: str) -> list:
+    """Return urls list that will be used in SQL query
+    :param url:
+    :type url: str
+    :rtype: list"""
+    url_list = []
+    urls = url.split('-')
+    for i in range(len(urls)):
+        url_list.append('-'.join(urls[:i + 1]))
+    return url_list
+
+
 @register.inclusion_tag('menu/menu.html')
 def children(query: list, current_url: str, base_url: str) -> dict:
-    """Create children menu if need
+    """Create children menu, if needed
     :param query:
     :type query: list
     :param current_url:
@@ -41,7 +53,7 @@ def children(query: list, current_url: str, base_url: str) -> dict:
             menu.append(table)
         else:
             left.append(table)
-    current_url = check_set_url(current_url, base_url)
+    current_url = set_current_url(current_url, base_url)
     return {'left': left, 'main_menu': menu, 'menu_url': current_url, 'base': base_url}
 
 
@@ -54,7 +66,8 @@ def draw_menu(url: str) -> dict:
     """
     base_url = url
     current_url = '' if base_url == '' else base_url.split('-')[0]
-    menu = Menu.objects.select_related('parent').order_by('name')
+    menu = Menu.objects.filter(Q(parent=None) | Q(parent__url__in=get_urls(base_url))).select_related(
+        'parent').order_by('name')
     main_menu = []
     left = []
     if menu:
