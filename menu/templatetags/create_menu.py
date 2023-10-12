@@ -64,9 +64,8 @@ def draw_menu(url: str) -> dict:
     :type url: str
     :rtype: dict
     """
-    base_url = url
-    current_url = '' if base_url == '' else base_url.split('-')[0]
-    menu = Menu.objects.filter(Q(parent=None) | Q(parent__url__in=get_urls(base_url))).select_related(
+    current_url = '' if url == '' else url.split('-')[0]
+    menu = Menu.objects.filter(Q(parent=None) | Q(parent__url__in=get_urls(url))).select_related(
         'parent').order_by('name')
     main_menu = []
     left = []
@@ -76,5 +75,5 @@ def draw_menu(url: str) -> dict:
                 main_menu.append(table)
             else:
                 left.append(table)
-        return {'main_menu': main_menu, 'left': left, 'base': base_url, 'menu_url': current_url}
+        return {'main_menu': main_menu, 'left': left, 'base': url, 'menu_url': current_url}
     return {}
