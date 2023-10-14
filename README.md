@@ -17,18 +17,17 @@ sudo docker-compose exec -ti django python manage.py createsuperuser
 
 После ввода данных можете переходить по адресу http://0.0.0.0:8000/  или http://0.0.0.0:8000/admin/ для добавления меню.
 
-Если же хотите запустить не используя Docker то необходимо убрать файл settings.py из папки tree_menu и переименовать файл settings_base.py в setting.py
+Если же хотите запустить не используя Docker то необходимо:  
 
-После необходимо установить необходимые зависимости командой:  
+Установить зависимости командой:  
 
 ```bash
 pip install -r requirements.txt
 ```
 
-и все готово для работы.  
-Запускайте приложение командой  
+и запустить приложение командой 
 ```bash
-python3 manage.py runserver
+python3 manage.py runserver --settings=tree_menu.settings_base
 ```
 И переходите по адресу http://127.0.0.1:8000/ 
 
