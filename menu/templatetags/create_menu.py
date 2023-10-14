@@ -11,7 +11,7 @@ def set_current_url(current_url: str, base_url: str) -> str | None:
     :type current_url: str
     :param base_url:
     :type base_url: str
-    :rtype: dict | None
+    :rtype: str | None
     """
     url_now_len = len(current_url.split('-'))
     base_url_len = len(base_url.split('-'))
@@ -19,8 +19,7 @@ def set_current_url(current_url: str, base_url: str) -> str | None:
         return '-'.join(base_url.split('-')[:url_now_len])
     elif url_now_len < base_url_len:
         return '-'.join(base_url.split('-')[:url_now_len + 1])
-    else:
-        return None
+    return None
 
 
 def get_urls(url: str) -> list:
@@ -28,11 +27,8 @@ def get_urls(url: str) -> list:
     :param url:
     :type url: str
     :rtype: list"""
-    url_list = []
     urls = url.split('-')
-    for i in range(len(urls)):
-        url_list.append('-'.join(urls[:i + 1]))
-    return url_list
+    return ['-'.join(urls[:i + 1]) for i in range(len(urls))]
 
 
 @register.inclusion_tag('menu/menu.html')
@@ -64,7 +60,6 @@ def draw_menu(url: str) -> dict:
     :type url: str
     :rtype: dict
     """
-    current_url = '' if url == '' else url.split('-')[0]
     menu = Menu.objects.filter(Q(parent=None) | Q(parent__url__in=get_urls(url))).select_related(
         'parent').order_by('name')
     main_menu = []
@@ -75,5 +70,4 @@ def draw_menu(url: str) -> dict:
                 main_menu.append(table)
             else:
                 left.append(table)
-        return {'main_menu': main_menu, 'left': left, 'base': url, 'menu_url': current_url}
-    return {}
+    return {'main_menu': main_menu, 'left': left, 'base': url, 'menu_url': url.split('-')[0]}
