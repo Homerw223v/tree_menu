@@ -24,8 +24,12 @@ sudo docker-compose exec -ti django python manage.py createsuperuser
 ```bash
 pip install -r requirements.txt
 ```
+создать суперпользователя  
 
-и запустить приложение командой 
+```bash
+python3 manage.py createsuperuser --settings=tree_menu.settings_base
+```
+и запустить приложение.
 ```bash
 python3 manage.py runserver --settings=tree_menu.settings_base
 ```
