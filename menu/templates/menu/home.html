@@ -2,7 +2,7 @@
 {% load create_menu %}
 {% block content %}
     {% if request.path != '/' %}
-        <a href="{% url 'start_page' %}"><h1 align="center">Main Menu</h1></a>
+        <a href="{% url 'tree_menu:start_page' %}"><h1 align="center">Main Menu</h1></a>
         <nav>{% draw_menu slug %}</nav>
     {% else %}
         <h1 align="center">Tree Menu</h1>

@@ -21,9 +21,9 @@ class MenuViewTest(TestCase):
     def test_url_access_via_name(self):
         parent = Menu.objects.get(name='Python')
         child = Menu.objects.get(name='manage.py')
-        response1 = self.client.get(reverse('menu', args=(parent.url,)))
-        response2 = self.client.get(reverse('menu', args=(child.url,)))
-        response3 = self.client.get((reverse('start_page')))
+        response1 = self.client.get(reverse('tree_menu:menu', args=(parent.url,)))
+        response2 = self.client.get(reverse('tree_menu:menu', args=(child.url,)))
+        response3 = self.client.get((reverse('tree_menu:start_page')))
         self.assertEquals(response1.status_code, 200)
         self.assertEquals(response2.status_code, 200)
         self.assertEquals(response3.status_code, 200)
@@ -31,8 +31,8 @@ class MenuViewTest(TestCase):
     def test_template_used(self):
         parent = Menu.objects.get(name='Python')
         child = Menu.objects.get(name='manage.py')
-        response1 = self.client.get(reverse('menu', args=(parent.url,)))
-        response2 = self.client.get(reverse('menu', args=(child.url,)))
+        response1 = self.client.get(reverse('tree_menu:menu', args=(parent.url,)))
+        response2 = self.client.get(reverse('tree_menu:menu', args=(child.url,)))
         self.assertTemplateUsed(response1, 'menu/home.html')
         self.assertTemplateUsed(response2, 'menu/home.html')
 

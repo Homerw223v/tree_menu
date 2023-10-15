@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Menu(models.Model):
@@ -18,6 +19,9 @@ class Menu(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('tree_menu:menu', args=[self.url])
 
     def create_url(self):
         self.url = f"{self.slug}" if self.parent is None else f"{self.parent.url}-{self.slug}"
