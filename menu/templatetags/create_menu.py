@@ -1,3 +1,5 @@
+"""Create tree menu"""
+
 from django import template
 from django.db.models import Q
 from ..models import Menu
