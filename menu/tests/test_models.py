@@ -7,7 +7,6 @@ class TestModel(TestCase):
     @classmethod
     def setUpTestData(cls):
         Menu.objects.create(name='Python')
-        menu = Menu.objects.get(name='Python')
 
     def test_menu_name_verbose_name(self):
         menu = Menu.objects.get(name='Python')
@@ -46,8 +45,13 @@ class TestModel(TestCase):
 class MenuParentTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        parent = Menu.objects.create(name='Python', slug='python', url='python')
-        Menu.objects.create(name='manage.py', slug='managepy', url='python-managepy', parent=parent)
+        parent = Menu.objects.create(name='Python',
+                                     slug='python',
+                                     url='python')
+        Menu.objects.create(name='manage.py',
+                            slug='managepy',
+                            url='python-managepy',
+                            parent=parent)
 
     def test_have_parent(self):
         child = Menu.objects.get(name='manage.py')

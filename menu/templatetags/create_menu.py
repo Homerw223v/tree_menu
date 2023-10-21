@@ -50,7 +50,10 @@ def children(query: list, current_url: str, base_url: str) -> dict:
         else:
             left.append(table)
     current_url = set_current_url(current_url, base_url)
-    return {'left': left, 'main_menu': menu, 'menu_url': current_url, 'base': base_url}
+    return {'left': left,
+            'main_menu': menu,
+            'menu_url': current_url,
+            'base': base_url}
 
 
 @register.inclusion_tag('menu/menu.html')
@@ -60,7 +63,9 @@ def draw_menu(url: str) -> dict:
     :type url: str
     :rtype: dict
     """
-    menu = Menu.objects.filter(Q(parent=None) | Q(parent__url__in=get_urls(url))).select_related(
+    menu = Menu.objects.filter(
+        Q(parent=None) | Q(parent__url__in=get_urls(url))
+    ).select_related(
         'parent').order_by('name')
     main_menu = []
     left = []
@@ -70,4 +75,7 @@ def draw_menu(url: str) -> dict:
                 main_menu.append(table)
             else:
                 left.append(table)
-    return {'main_menu': main_menu, 'left': left, 'base': url, 'menu_url': url.split('-')[0]}
+    return {'main_menu': main_menu,
+            'left': left,
+            'base': url,
+            'menu_url': url.split('-')[0]}
