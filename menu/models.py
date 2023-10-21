@@ -31,8 +31,10 @@ class Menu(models.Model):
     def get_absolute_url(self):
         return reverse('tree_menu:menu', args=[self.url])
 
-    def create_url(self):
+    def save(self, *args, **kwargs):
         if not self.parent:
             self.url = f"{self.slug}"
         else:
             self.url = f"{self.parent.url}-{self.slug}"
+        print(self.url)
+        super().save(*args, **kwargs)
